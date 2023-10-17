@@ -1,6 +1,7 @@
 # Bruk denne til prosjektet 
 # Editing test
 #William
+#Henrik sin endring
 #test
 
 class BankAccount:
