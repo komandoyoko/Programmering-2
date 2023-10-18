@@ -1,8 +1,3 @@
-# Bruk denne til prosjektet 
-# Editing test
-#William
-#Henrik sin endring
-#test
 
 class BankAccount:
     def __init__(self, initial_balance = 0):
@@ -17,9 +12,9 @@ class BankAccount:
     def get_balance(self):
         return self.balance 
     
-    def closure(self, amount):
-            self.balance== 0
-            "account is closed"
+    def closure(self):
+            self.balance = 0
+            print("account is closed")
 class Menu:
     first = True
     def __init__(self):
@@ -45,6 +40,7 @@ class Menu:
                 
         else:
             while not done:
+                print("\n")
                 for i in range(1, len(self.options)):
                     print("%d %s" % (i+1, self.options[i]))
                 user_choice = int(input("Enter your option: "))
@@ -55,6 +51,9 @@ class Menu:
                     print("** Enter a valid option **")
                     
         return user_choice
+    
+    def reset(self):
+        self.first = True
 
 main_menu = Menu()
 
@@ -67,7 +66,7 @@ main_menu.add_option("Retrieve the transaction history for an account")
 main_menu.add_option("Generate and print an account statement")
 main_menu.add_option("Generate and print an account summary")
 main_menu.add_option("Close the account")
-main_menu.add_option("Account status active or closed")
+main_menu.add_option("Account status active or closed\n")
 
 while True:
     choice = main_menu.get_input()
@@ -92,6 +91,12 @@ while True:
         
         elif choice == 5:
             print("You current balance = $", my_account.get_balance())
+            
+        elif choice == 9:
+            my_account.closure()
+            main_menu.reset()
+            # this choice isn't working properly yet
+            print("choice 9 isn't working properly yet")
         
         else:
             print("Thank you for choosing our bank.")
