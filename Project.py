@@ -2,6 +2,13 @@
 class BankAccount:
     def __init__(self, initial_balance = 0):
         self.balance = initial_balance
+        self.account_number = 0
+
+    def set_account_number(self):
+        self.account_number =+ 1111
+
+    def get_account_number(self):
+        return self.account_number
         
     def deposit(self, amount):
         self.balance = self.balance + amount
@@ -78,8 +85,9 @@ while True:
                 amount = input("Enter an initial amount to open the new account: ")
             
             amount = float(amount)
-                
             my_account = BankAccount(amount)
+            my_account.set_account_number()
+            
         
         elif choice == 2:
             amount = float(input("Enter an amount to deposit into your account: "))
@@ -89,8 +97,11 @@ while True:
             amount = float(input("Enter an amount to withdraw from your account: "))
             my_account.withdraw(amount)
         
-        elif choice == 5:
+        elif choice == 4:
             print("You current balance = $", my_account.get_balance())
+
+        elif choice == 8:
+            print(f"Your account number is: {my_account.get_account_number()}")
             
         elif choice == 9:
             my_account.closure()
