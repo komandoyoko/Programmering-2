@@ -26,13 +26,6 @@ class BankAccount:
     
     def deposit(self, amount):
         self.balance = self.balance + amount
-
-    @get_deposit_info
-    def gdtime(1):
-        return deposit(self, amount)
-
-
-    
     
     def withdraw(self, amount):
             self.balance = self.balance - amount
@@ -123,7 +116,7 @@ while True:
             print("You current balance = $", my_account.get_balance())
 
         elif choice == 7:
-            res = my_account.gdtime()
+            res = my_account.get_deposit_info(deposit)
             print(res)
 
         elif choice == 8:
