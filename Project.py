@@ -1,20 +1,42 @@
-
 class BankAccount:
     def __init__(self, initial_balance = 0):
         self.balance = initial_balance
         self.account_number = 0
+        self.time_deposit = []
 
     def set_account_number(self):
         self.account_number =+ 1111
 
     def get_account_number(self):
         return self.account_number
-        
+    
+    def get_deposit_info(fn):
+        from functools import wraps
+        from datetime import datetime, timezone
+        @wraps(fn)
+        def inner(*args,**kwargs):
+            li = []
+            print("This is the deposit information:")
+            time_ = li.append({datetime.now(timezone.utc)})
+            #{datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
+            result = fn(*args, **kwargs)
+            print(time_)
+            return result
+        return inner
+    
     def deposit(self, amount):
         self.balance = self.balance + amount
+
+    @get_deposit_info
+    def gdtime(1):
+        return deposit(self, amount)
+
+
+    
     
     def withdraw(self, amount):
             self.balance = self.balance - amount
+            
     
     def get_balance(self):
         return self.balance 
@@ -99,6 +121,10 @@ while True:
         
         elif choice == 4:
             print("You current balance = $", my_account.get_balance())
+
+        elif choice == 7:
+            res = my_account.gdtime()
+            print(res)
 
         elif choice == 8:
             print(f"Your account number is: {my_account.get_account_number()}")
