@@ -1,41 +1,74 @@
+import time
+
+def measure_execution_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"Execution time: {end_time - start_time} seconds")
+        return result
+    return wrapper
+
+def check_sufficient_balance(func):
+    def wrapper(self, amount):
+        if amount > self.balance:
+            print("Invalid amount: Insufficient balance.")
+        else:
+            func(self, amount)
+    return wrapper
+
 class BankAccount:
     def __init__(self, initial_balance = 0):
+        self.account_number = account_number
         self.balance = initial_balance
-        self.account_number = 0
-        self.time_deposit = []
-
-    def set_account_number(self):
-        self.account_number =+ 1111
-
-    def get_account_number(self):
-        return self.account_number
-    
-    #Have a look at this
-    def get_deposit_info(fn):
-        from functools import wraps
-        from datetime import datetime, timezone
-        @wraps(fn)
-        def inner(self,amount,*args,**kwargs):
-            save_time = (amount,datetime.now(timezone.utc))
-            self.time_deposit.append(save_time)
-            result = fn(self,amount,*args, **kwargs)
-            return result
-        return inner
-    
-    @get_deposit_info
+        self.transaction_history = []
+        
+    @measure_execution_time
     def deposit(self, amount):
         self.balance = self.balance + amount
+        self._add_transaction("Deposit", amount)
     
+    @measure_execution_time
+    @check_sufficient_balance
     def withdraw(self, amount):
             self.balance = self.balance - amount
-            
+            self._add_transaction("Withdrawal", amount)
     
     def get_balance(self):
         return self.balance 
     
-    def closure(self):
-            self.balance = 0
-            print("account is closed")
+    def closure(self, amount):
+            self.balance== 0
+            "account is closed"
+            
+    def get_transaction_history(self):
+        return self.transaction_history
+    
+    def generate_statement(self):
+        print("\n--- Account Statement ---")
+        for transaction in self.transaction_history:
+            print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
+        print(f"Current Balance: {self.balance}")
+        
+    def _add_transaction(self, transaction_type, amount):
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        transaction = {'type': transaction_type, 'amount': amount, 'timestamp': timestamp}
+        self.transaction_history.append(transaction)
+        
+    def generate_summary(self):
+        print("\n--- Account Summary ---")
+        print(f"Account Number: {self.account_number}")
+        print(f"Current Balance: {self.balance}")
+        print(f"Number of Transactions: {len(self.transaction_history)}")
+    
+    def is_account_closed(self):
+        return self.balance == 0 and not self.transaction_history
+    
+    def close_account(self):
+        self.balance = 0
+        self.transaction_history.clear()
+        print("Account closed successfully.")
+    
 class Menu:
     first = True
     def __init__(self):
@@ -46,91 +79,96 @@ class Menu:
         
     def get_input(self):
         done = False
-        if self.first:
-            while not done:
-                for i in range(len(self.options)):
-                    print("%d %s" % (i+1, self.options[i]))
+
+        while not done:
+            for i in range(len(self.options)):
+                print("%d %s" % (i+1, self.options[i]))
+            try:
                 user_choice = int(input("Enter your option: "))
                 if (user_choice >= 1 and user_choice <= len(self.options)):
                     done = True
+                    return user_choice      
                 else:
-                    print("Invalid option.")
-                    print("** Enter a valid option **")
-                if user_choice == 1:
-                    self.first = False
-                
-        else:
-            while not done:
-                print("\n")
-                for i in range(1, len(self.options)):
-                    print("%d %s" % (i+1, self.options[i]))
-                user_choice = int(input("Enter your option: "))
-                if (user_choice >= 2 and user_choice <= len(self.options)):
-                    done = True
-                else:
-                    print("Invalid option.")
-                    print("** Enter a valid option **")
-                    
-        return user_choice
-    
-    def reset(self):
-        self.first = True
+                    print(f'\nInvalid option: You entered {user_choice} while the options ranges from 1 to 9')
+                    print("Please enter a number corresponding to desierd function\n")
+            except ValueError:
+                print("\nInavlid option: The option must be a number")
+                print("Please enter a number corresponding to desierd function\n")
 
 main_menu = Menu()
 
-main_menu.add_option("Open a new account")
+
+main_menu.add_option("Create new account")
 main_menu.add_option("Deposit money into the account")
 main_menu.add_option("Withdraw money from the account")
 main_menu.add_option("Check the current balance of the account")
-main_menu.add_option("Keep track of all the transactions made on the account")
-main_menu.add_option("Retrieve the transaction history for an account")
-main_menu.add_option("Generate and print an account statement")
-main_menu.add_option("Generate and print an account summary")
+main_menu.add_option("Transactions history")
+main_menu.add_option("Account statement")
+main_menu.add_option("Account summary")
+main_menu.add_option("Check if account is active or closed")
 main_menu.add_option("Close the account")
-main_menu.add_option("Account status active or closed\n")
+main_menu.add_option("Exist program")
 
 while True:
     choice = main_menu.get_input()
-    try:
+    try:       
+        
         if choice == 1:
+            account_number = input("Enter account number: ")
+            my_account = BankAccount(account_number)
             amount = input("Enter an initial amount to open the new account: ")
             while not (amount.replace(".","")).isdigit():
                 print("Please enter a valid amount.")
                 amount = input("Enter an initial amount to open the new account: ")
             
             amount = float(amount)
+                
             my_account = BankAccount(amount)
-            my_account.set_account_number()
-            
         
         elif choice == 2:
-            amount = float(input("Enter an amount to deposit into your account: "))
+            amount = float(input("\nEnter an amount to deposit into your account: "))
+            while amount <= 0:
+                print("\nInvalid amount: The deposit amount must be a number greater then 0")
+                amount = float(input("\nEnter an amount to deposit into your account: "))
             my_account.deposit(amount)
         
         elif choice == 3:
-            amount = float(input("Enter an amount to withdraw from your account: "))
+            amount = float(input("\nEnter an amount to withdraw from your account: "))
+            while amount <= 0:
+                print("\nInvalid amount: The withdraw amount must be a number greater then 0")
+                amount = float(input("\nEnter an amount to withdraw from your account: "))
             my_account.withdraw(amount)
+            
         
         elif choice == 4:
-            print("You current balance = $", my_account.get_balance())
+            print("\nYou current balance = ", my_account.get_balance())
+        
+        elif choice == 5:
+            transactions = my_account.get_transaction_history()
+            print("\n--- Transaction History ---")
+            for transaction in transactions:
+                print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
 
-        elif choice == 7:
-            res = my_account.get_deposit_info()
-            print(res)
-
-        elif choice == 8:
-            print(f"Your account number is: {my_account.get_account_number()}")
+        elif choice == 6:
+            my_account.generate_statement()
             
+        elif choice == 7:
+            my_account.generate_summary()
+        
+        elif choice == 8:
+            if my_account.is_account_closed():
+                print("\nAccount is closed.")
+            else:
+                print("\nAccount is still open.")
+
         elif choice == 9:
-            my_account.closure()
-            main_menu.reset()
-            # this choice isn't working properly yet
-            print("choice 9 isn't working properly yet")
+            my_account.close_account()
         
         else:
-            print("Thank you for choosing our bank.")
+            print("\nThank you for choosing our bank.")
             print("Bye")
             break
-    
     except NameError:
-        print("You need to create an account first.")
+        print("Inavlid option: A account must be created first")
+    except ValueError:
+        print("Invalid value: The value must be a number")
