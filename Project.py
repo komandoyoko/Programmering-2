@@ -14,16 +14,14 @@ class BankAccount:
         from functools import wraps
         from datetime import datetime, timezone
         @wraps(fn)
-        def inner(*args,**kwargs):
-            li = []
-            print("This is the deposit information:")
-            time_ = li.append({datetime.now(timezone.utc)})
-            #{datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
-            result = fn(*args, **kwargs)
-            print(time_)
+        def inner(self,amount,*args,**kwargs):
+            save_time = (amount,datetime.now(timezone.utc))
+            self.time_deposit.append(save_time)
+            result = fn(self,amount,*args, **kwargs)
             return result
         return inner
     
+    @get_deposit_info
     def deposit(self, amount):
         self.balance = self.balance + amount
     
@@ -116,7 +114,7 @@ while True:
             print("You current balance = $", my_account.get_balance())
 
         elif choice == 7:
-            res = my_account.get_deposit_info(deposit)
+            res = my_account.get_deposit_info()
             print(res)
 
         elif choice == 8:
