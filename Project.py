@@ -49,6 +49,7 @@ class BankAccount:
         for transaction in self.transaction_history:
             print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
         print(f"Current Balance: {self.balance}")
+        print()
         
     def _add_transaction(self, transaction_type, amount):
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -107,7 +108,7 @@ main_menu.add_option("Account statement")
 main_menu.add_option("Account summary")
 main_menu.add_option("Check if account is active or closed")
 main_menu.add_option("Close the account")
-main_menu.add_option("Exist program")
+main_menu.add_option("Exit program")
 
 while True:
     choice = main_menu.get_input()
@@ -141,7 +142,9 @@ while True:
             
         
         elif choice == 4:
-            print("\nYou current balance = ", my_account.get_balance())
+            print("\n"+"-"*30)
+            print("You current balance = ", my_account.get_balance())
+            print("-"*30,"\n")
         
         elif choice == 5:
             transactions = my_account.get_transaction_history()
