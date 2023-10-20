@@ -148,10 +148,12 @@ while True:
         
         elif choice == 5:
             transactions = my_account.get_transaction_history()
-            print("\n--- Transaction History ---")
+            print("\n"+"-"*30)
+            print("--- Transaction History ---")
             for transaction in transactions:
                 print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
-
+            print("-"*30,"\n")
+            
         elif choice == 6:
             my_account.generate_statement()
             
