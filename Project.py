@@ -93,10 +93,10 @@ class Menu:
                     return user_choice      
                 else:
                     print(f'\nInvalid option: You entered {user_choice} while the options ranges from 1 to 9')
-                    print("Please enter a number corresponding to desierd function\n")
+                    print("Please enter a number corresponding to desired function\n")
             except ValueError:
-                print("\nInavlid option: The option must be a number")
-                print("Please enter a number corresponding to desierd function\n")
+                print("\nInvalid option: The option must be a number")
+                print("Please enter a number corresponding to desired function\n")
 
 main_menu = Menu()
 
@@ -105,7 +105,7 @@ main_menu.add_option("Create new account")
 main_menu.add_option("Deposit money into the account")
 main_menu.add_option("Withdraw money from the account")
 main_menu.add_option("Check the current balance of the account")
-main_menu.add_option("Transactions history")
+main_menu.add_option("Transaction history")
 main_menu.add_option("Account statement")
 main_menu.add_option("Account summary")
 main_menu.add_option("Check if account is active or closed")
@@ -131,7 +131,7 @@ while True:
         elif choice == 2:
             amount = float(input("\nEnter an amount to deposit into your account: "))
             while amount <= 0:
-                print("\nInvalid amount: The deposit amount must be a number greater then 0")
+                print("\nInvalid amount: The deposit amount must be a number greater than 0")
                 amount = float(input("\nEnter an amount to deposit into your account: "))
             my_account.deposit(amount)
         
@@ -183,7 +183,7 @@ while True:
             break
     except NameError:
         print("\n"+"-"*55+"\n")
-        print("Inavlid option: A account must be created first")
+        print("Invalid option: A account must be created first")
         print("\n"+"-"*55,"\n")
     except ValueError:
         print("\n"+"-"*55+"\n")
