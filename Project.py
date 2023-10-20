@@ -68,7 +68,9 @@ class BankAccount:
     def close_account(self):
         self.balance = 0
         self.transaction_history.clear()
+        print("\n"+"-"*55,"\n")
         print("Account closed successfully.")
+        print("\n"+"-"*55,"\n")
     
 class Menu:
     first = True
@@ -142,18 +144,18 @@ while True:
             
         
         elif choice == 4:
-            print("\n"+"-"*30)
+            print("\n"+"-"*55+"\n")
             print("You current balance = ", my_account.get_balance())
-            print("-"*30,"\n")
+            print("\n"+"-"*55,"\n")
         
         elif choice == 5:
             transactions = my_account.get_transaction_history()
-            print("\n"+"-"*30)
+            print("\n"+"-"*55+"\n")
             print("--- Transaction History ---")
             for transaction in transactions:
                 print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
-            print("-"*30,"\n")
-            
+            print("\n"+"-"*55,"\n")
+
         elif choice == 6:
             my_account.generate_statement()
             
@@ -162,18 +164,28 @@ while True:
         
         elif choice == 8:
             if my_account.is_account_closed():
-                print("\nAccount is closed.")
+                print("\n"+"-"*55+"\n")
+                print("Account is closed.")
+                print("\n"+"-"*55,"\n")
             else:
-                print("\nAccount is still open.")
+                print("\n"+"-"*55+"\n")
+                print("Account is still open.")
+                print("\n"+"-"*55,"\n")
 
         elif choice == 9:
             my_account.close_account()
         
         else:
+            print("\n"+"-"*55+"\n")
             print("\nThank you for choosing our bank.")
             print("Bye")
+            print("\n"+"-"*55,"\n")
             break
     except NameError:
+        print("\n"+"-"*55+"\n")
         print("Inavlid option: A account must be created first")
+        print("\n"+"-"*55,"\n")
     except ValueError:
+        print("\n"+"-"*55+"\n")
         print("Invalid value: The value must be a number")
+        print("\n"+"-"*55,"\n")
