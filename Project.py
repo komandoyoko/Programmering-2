@@ -36,10 +36,6 @@ class BankAccount:
     
     def get_balance(self):
         return self.balance 
-    
-    def closure(self, amount):
-            self.balance== 0
-            "account is closed"
             
     def get_transaction_history(self):
         return self.transaction_history
@@ -73,7 +69,6 @@ class BankAccount:
         print("\n"+"-"*55,"\n")
     
 class Menu:
-    first = True
     def __init__(self):
         self.options = []
     
@@ -84,6 +79,7 @@ class Menu:
         done = False
 
         while not done:
+            print("\n")
             for i in range(len(self.options)):
                 print("%d %s" % (i+1, self.options[i]))
             try:
@@ -92,11 +88,11 @@ class Menu:
                     done = True
                     return user_choice      
                 else:
-                    print(f'\nInvalid option: You entered {user_choice} while the options ranges from 1 to 9')
-                    print("Please enter a number corresponding to desired function\n")
+                    print(f"\nInvalid option: You entered '{user_choice}', but the options range from 1 to 10.")
+                    print("Please enter a number corresponding to a desired function.\n")
             except ValueError:
-                print("\nInvalid option: The option must be a number")
-                print("Please enter a number corresponding to desired function\n")
+                print("\nInvalid option: You must enter a number.")
+                print("Please enter a number corresponding to a desired function.\n")
 
 main_menu = Menu()
 
@@ -138,7 +134,7 @@ while True:
         elif choice == 3:
             amount = float(input("\nEnter an amount to withdraw from your account: "))
             while amount <= 0:
-                print("\nInvalid amount: The withdraw amount must be a number greater then 0")
+                print("\nInvalid amount: The withdraw amount must be a number greater than 0")
                 amount = float(input("\nEnter an amount to withdraw from your account: "))
             my_account.withdraw(amount)
             
@@ -163,17 +159,24 @@ while True:
             my_account.generate_summary()
         
         elif choice == 8:
-            if my_account.is_account_closed():
+            try:
+                if my_account.is_account_closed():
+                    print("\n"+"-"*55+"\n")
+                    print("Account is closed.")
+                    print("\n"+"-"*55,"\n")
+                else:
+                    print("\n"+"-"*55+"\n")
+                    print("Account is still open.")
+                    print("\n"+"-"*55,"\n")
+                    
+            except NameError:
                 print("\n"+"-"*55+"\n")
                 print("Account is closed.")
-                print("\n"+"-"*55,"\n")
-            else:
-                print("\n"+"-"*55+"\n")
-                print("Account is still open.")
                 print("\n"+"-"*55,"\n")
 
         elif choice == 9:
             my_account.close_account()
+            del my_account
         
         else:
             print("\n"+"-"*55+"\n")
@@ -183,7 +186,7 @@ while True:
             break
     except NameError:
         print("\n"+"-"*55+"\n")
-        print("Invalid option: A account must be created first")
+        print("Invalid option: An account must be created first")
         print("\n"+"-"*55,"\n")
     except ValueError:
         print("\n"+"-"*55+"\n")
