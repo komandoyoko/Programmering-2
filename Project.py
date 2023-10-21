@@ -41,11 +41,12 @@ class BankAccount:
         return self.transaction_history
     
     def generate_statement(self):
-        print("\n--- Account Statement ---")
+        print("\n"+"-"*55+"\n")
+        print("--- Account Statement ---")
         for transaction in self.transaction_history:
             print(f"{transaction['type']} - Amount: {transaction['amount']}, Timestamp: {transaction['timestamp']}")
         print(f"Current Balance: {self.balance}")
-        print()
+        print("\n"+"-"*55,"\n")
         
     def _add_transaction(self, transaction_type, amount):
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -53,10 +54,12 @@ class BankAccount:
         self.transaction_history.append(transaction)
         
     def generate_summary(self):
-        print("\n--- Account Summary ---")
+        print("\n"+"-"*55,"\n")
+        print("--- Account Summary ---")
         print(f"Account Number: {self.account_number}")
         print(f"Current Balance: {self.balance}")
         print(f"Number of Transactions: {len(self.transaction_history)}")
+        print("\n"+"-"*55,"\n")
     
     def is_account_closed(self):
         return self.balance == 0 and not self.transaction_history
